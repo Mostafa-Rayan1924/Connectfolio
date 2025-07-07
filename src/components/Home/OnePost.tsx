@@ -35,12 +35,10 @@ const OnePost = ({ item }: { item: PostType }) => {
       {/* end header */}
       {/* body */}
       <div className="w-full h-[300px] md:h-[350px] lg:h-[450px]">
-        <Image
-          width={500}
-          height={500}
+        <img
           className="size-full aspect-square rounded-lg object-fill"
           src={Object.keys(item?.image).length > 0 ? item?.image : "/post.png"}
-          alt="profile-img"
+          alt="post-img"
         />
       </div>
       {/* end body */}
