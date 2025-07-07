@@ -13,7 +13,13 @@ const PersonExp = ({ data }: { data: userType[] }) => {
           key={user?.id}
           className="flex flex-col gap-2 items-center ">
           <Avatar size="lg">
-            <AvatarImage src={user?.profile_image} />
+            <AvatarImage
+              src={
+                Object.keys(user?.profile_image).length > 0
+                  ? user?.profile_image
+                  : "/user.png"
+              }
+            />
             <AvatarFallback>
               <Image
                 width={80}

@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 const OnePost = ({ item }: { item: PostType }) => {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 pb-3 border-b border-border">
       {/* header */}
       <div className="flex items-center justify-between">
         <Link href={"/"} className="flex items-center  max-w-[50%]  gap-2">
@@ -39,7 +39,7 @@ const OnePost = ({ item }: { item: PostType }) => {
           width={500}
           height={500}
           className="size-full aspect-square rounded-lg object-fill"
-          src={Object.keys(item.image).length > 0 ? item?.image : "/post.png"}
+          src={Object.keys(item?.image).length > 0 ? item?.image : "/post.png"}
           alt="profile-img"
         />
       </div>
