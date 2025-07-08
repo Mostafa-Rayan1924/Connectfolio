@@ -17,8 +17,8 @@ import CreatePost from "../Reusable/CreatePost";
 import { useContext } from "react";
 import { Authcontext } from "@/lib/AuthContext";
 import UserInfoAfterLoggedIn from "../Reusable/UserInfoAfterLoggedIn";
+import LinkLi from "../Reusable/Link";
 const SidebarPhone = () => {
-  let pathname = usePathname();
   let [open, setOpen] = useState(false);
   let { user } = useContext(Authcontext);
 
@@ -37,16 +37,7 @@ const SidebarPhone = () => {
         </SheetHeader>
         <ul className=" px-2">
           {linksArr.map((item) => (
-            <Link
-              href={item.link}
-              className={`text-[13px] ${
-                pathname === item.link && "bg-accent "
-              } flex items-center mb-3 ${
-                user?.user && item.title === "Signup" ? "hidden" : "flex"
-              } relative before:content-[''] before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-accent before:transition-all before:duration-300 hover:before:w-full before:rounded-lg before:-z-1  gap-2 py-2 px-3 rounded-lg`}>
-              <item.icon size={22} />
-              {item.title}
-            </Link>
+            <LinkLi item={item} user={user} />
           ))}
           <CreatePost />
         </ul>

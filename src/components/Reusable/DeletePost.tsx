@@ -6,9 +6,12 @@ import { useContext } from "react";
 import { Authcontext } from "@/lib/AuthContext";
 import { DeleteIcon } from "lucide-react";
 import { PostType } from "@/types/type";
+import { usePathname, useRouter } from "next/navigation";
 
 const DeletePost = ({ item }: { item: PostType }) => {
   let { setPosts, user } = useContext(Authcontext);
+  let pathname = usePathname();
+  let router = useRouter();
   let handleDel = async () => {
     let Authorization = `Bearer ${user.token}`;
     try {
@@ -25,6 +28,9 @@ const DeletePost = ({ item }: { item: PostType }) => {
           prev.filter((post: PostType) => post.id !== item.id)
         );
         toast.success("Post Deleted Successfully");
+        if (pathname.includes("profile")) {
+          router.refresh();
+        }
       }
     } catch (e: any) {
       if (e?.response?.data?.message) {

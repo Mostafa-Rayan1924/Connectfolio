@@ -2,7 +2,7 @@
 import { getPosts } from "@/api/api";
 import OnePost from "./OnePost";
 import { PostType } from "@/types/type";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Authcontext } from "@/lib/AuthContext";
 
 const PostsList = () => {

@@ -18,8 +18,11 @@ import axios from "axios";
 import { showCustomToast } from "./Toast";
 import { PostType } from "@/types/type";
 import toast from "react-hot-toast";
+import { usePathname, useRouter } from "next/navigation";
 
 const EditPost = ({ item }: { item: PostType }) => {
+  let pathname = usePathname();
+  let router = useRouter();
   const { user, setPosts } = useContext(Authcontext);
   const [desc, setDesc] = useState(item.body || "");
   const [title, setTitle] = useState(item.title || "");
@@ -64,6 +67,9 @@ const EditPost = ({ item }: { item: PostType }) => {
         setTitle("");
         setSelectedImage(null);
         setIsOpen(false); // ⬅️ غلق الـ Dialog بعد النجاح
+        if (pathname.includes("profile")) {
+          router.refresh();
+        }
       }
     } catch (e: any) {
       toast.error(e.response?.data?.message || "Something went wrong");

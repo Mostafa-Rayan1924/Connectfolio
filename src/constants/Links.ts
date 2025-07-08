@@ -17,13 +17,6 @@ export let linksArr: linksType[] = [
     icon: House,
   },
   {
-    id: 2,
-    link: "/profile",
-    title: "Profile",
-    icon: CircleUser,
-  },
-
-  {
     id: 3,
     link: "/explore",
     title: "Explore",

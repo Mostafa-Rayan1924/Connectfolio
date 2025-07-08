@@ -8,6 +8,9 @@ import { useContext } from "react";
 import { Authcontext } from "@/lib/AuthContext";
 import UserInfoAfterLoggedIn from "../Reusable/UserInfoAfterLoggedIn";
 import { LogIn } from "lucide-react";
+import LinkLi from "../Reusable/Link";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Image from "next/image";
 
 const Sidebar = () => {
   let pathName = usePathname();
@@ -21,19 +24,33 @@ const Sidebar = () => {
             <Logo />
           </div>
           <ul>
+            {user?.user && (
+              <Link
+                className="flex items-center gap-2 mb-4 hover:text-primary "
+                href={`/profile/${user.user.id}`}>
+                <Avatar size="sm">
+                  <AvatarImage
+                    src={
+                      Object.keys(user?.user?.profile_image).length > 0
+                        ? user?.user?.profile_image
+                        : "/user.png"
+                    }
+                  />
+                  <AvatarFallback>
+                    <Image
+                      width={40}
+                      height={40}
+                      className="w-full"
+                      src={"/user.png"}
+                      alt="profile-img"
+                    />
+                  </AvatarFallback>
+                </Avatar>
+                <h2 className="font-semibold">{user?.user?.name}</h2>
+              </Link>
+            )}
             {linksArr.map((item) => {
-              return (
-                <Link
-                  href={item.link}
-                  className={`text-[13px] ${
-                    pathName === item.link && "bg-accent "
-                  } flex items-center mb-2 ${
-                    user?.user && item.title === "Signup" ? "hidden" : "flex"
-                  } relative before:content-[''] before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-accent before:transition-all before:duration-300 hover:before:w-full before:rounded-lg before:-z-1  gap-2 py-2 px-3 rounded-lg`}>
-                  <item.icon size={22} />
-                  {item.title}
-                </Link>
-              );
+              return <LinkLi item={item} user={user} />;
             })}
 
             <div className="mt-6">

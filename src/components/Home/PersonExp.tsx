@@ -9,7 +9,7 @@ const PersonExp = ({ data }: { data: userType[] }) => {
     <>
       {data.map((user: userType) => (
         <Link
-          href={"#"}
+          href={`/profile/${user.id}`}
           key={user?.id}
           className="flex flex-col gap-2 items-center ">
           <Avatar size="lg">

@@ -14,7 +14,9 @@ const OnePost = ({ item }: { item: PostType }) => {
     <div className="flex flex-col gap-3 pb-3 border-b border-border">
       {/* header */}
       <div className="flex items-center justify-between">
-        <Link href={"/"} className="flex items-center  max-w-[50%]  gap-2">
+        <Link
+          href={`/profile/${item?.author?.id}`}
+          className="flex items-center  max-w-[50%]  gap-2">
           <Avatar size="sm">
             <AvatarImage src={item?.author?.profile_image} />
             <AvatarFallback>
