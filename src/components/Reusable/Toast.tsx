@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { Avatar } from "../ui/avatar";
-import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export function showCustomToast(
   message: string,
@@ -31,8 +30,10 @@ export function showCustomToast(
             </Avatar>
           </div>
           <div className="ml-3 flex-1">
-            <p className="text-sm font-medium ">{username}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{message}</p>
+            <p className="text-sm font-medium line-clamp-1 ">{username}</p>
+            <p className="mt-1 text-sm text-muted-foreground line-clamp-1">
+              {message}
+            </p>
           </div>
         </div>
       </div>

@@ -1,9 +1,16 @@
-import { UserType } from "@/lib/AuthContext";
-import { Avatar } from "../ui/avatar";
-import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+"use client";
+import { Authcontext, UserType } from "@/lib/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Image from "next/image";
-import Logout from "../Auth/Logout";
-const UserInfoAfterLoggedIn = ({ user }: { user: UserType }) => {
+import { useContext } from "react";
+import { Divide, LogOut } from "lucide-react";
+import SureBtn from "../Auth/SureBtn";
+import { Button } from "../ui/button";
+const UserInfoAfterLoggedIn = ({ show }: { show: boolean }) => {
+  let { user, LogoutFunc } = useContext(Authcontext);
+  let handleLogout = () => {
+    LogoutFunc();
+  };
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2 ">
@@ -20,15 +27,23 @@ const UserInfoAfterLoggedIn = ({ user }: { user: UserType }) => {
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col gap-[2px] max-w-[70%] ">
-          <h3 className="text-sm line-clamp-1">{user?.user?.username}</h3>
+          <h3 className="text-sm overflow-hidden text-ellipsis whitespace-nowra">
+            {user?.user?.username}
+          </h3>
           <span className="text-xs text-muted-foreground overflow-hidden text-ellipsis whitespace-nowrap   ">
             {user?.user?.email}
           </span>
         </div>
       </div>
-      <div>
-        <Logout />
-      </div>
+      {show && (
+        <div>
+          <SureBtn handleSure={handleLogout} title="Logout">
+            <Button className="w-full" variant="outline">
+              <LogOut />
+            </Button>
+          </SureBtn>
+        </div>
+      )}
     </div>
   );
 };

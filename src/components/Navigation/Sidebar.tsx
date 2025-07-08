@@ -43,7 +43,7 @@ const Sidebar = () => {
         </div>
         <div className="pb-3">
           {user?.user ? (
-            <UserInfoAfterLoggedIn user={user} />
+            <UserInfoAfterLoggedIn show={true} />
           ) : (
             <h2 className="font-semibold capitalize flex items-center justify-center gap-2">
               Join to Connectfolio

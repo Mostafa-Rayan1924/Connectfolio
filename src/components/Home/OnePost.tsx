@@ -1,10 +1,15 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Authcontext } from "@/lib/AuthContext";
 import { PostType } from "@/types/type";
 import { Ellipsis, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useContext } from "react";
+import PostActions from "../Reusable/PostActions";
 const OnePost = ({ item }: { item: PostType }) => {
+  let { user } = useContext(Authcontext);
+
   return (
     <div className="flex flex-col gap-3 pb-3 border-b border-border">
       {/* header */}
@@ -28,19 +33,21 @@ const OnePost = ({ item }: { item: PostType }) => {
             </span>
           </div>
         </Link>
-        <div>
-          <Ellipsis size={20} />
-        </div>
+
+        {item?.author?.id === user?.user?.id && <PostActions item={item} />}
       </div>
       {/* end header */}
       {/* body */}
-      <div className="w-full h-[300px] md:h-[350px] lg:h-[450px]">
-        <img
-          className="size-full aspect-square rounded-lg object-fill"
-          src={Object.keys(item?.image).length > 0 ? item?.image : "/post.png"}
-          alt="post-img"
-        />
-      </div>
+      {Object.keys(item?.image).length > 0 && (
+        <div className="w-full h-[300px] md:h-[350px] lg:h-[450px]">
+          <img
+            onError={(e) => (e.currentTarget.src = "/post.png")}
+            className="size-full aspect-video rounded-lg object-fill"
+            src={item?.image}
+            alt="post-img"
+          />
+        </div>
+      )}
       {/* end body */}
       {/* footer */}
       <div className="flex items-start justify-between ">

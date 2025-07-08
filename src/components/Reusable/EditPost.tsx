@@ -1,5 +1,5 @@
 "use client";
-import { useState, FormEvent, useContext } from "react";
+import { useState, FormEvent, useContext, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { CirclePlus, LoaderCircle, Upload, X } from "lucide-react";
+import { CirclePlus, Edit, LoaderCircle, Upload, X } from "lucide-react";
 import UserInfoAfterLoggedIn from "./UserInfoAfterLoggedIn";
 import { Authcontext } from "@/lib/AuthContext";
 import Image from "next/image";
@@ -19,44 +19,50 @@ import { showCustomToast } from "./Toast";
 import { PostType } from "@/types/type";
 import toast from "react-hot-toast";
 
-const CreatePost = () => {
+const EditPost = ({ item }: { item: PostType }) => {
   const { user, setPosts } = useContext(Authcontext);
-  const [desc, setDesc] = useState("");
-  const [title, setTitle] = useState("");
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [desc, setDesc] = useState(item.body || "");
+  const [title, setTitle] = useState(item.title || "");
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false); // ⬅️ التحكم في فتح/غلق الـ Dialog
+  const [selectedImage, setSelectedImage] = useState<File | null>(null); // للصورة الجديدة فقط
+  const [previewImage, setPreviewImage] = useState<string | null>(
+    typeof item.image === "string" && item.image.trim() !== ""
+      ? item.image
+      : null
+  );
 
+  //  url.createObjectURL(مش بتقبل غير حاجه من نوع فايل مقدرش اديها سترينج عشان كده عملت بريفيو ايميج)
+  const [isOpen, setIsOpen] = useState(false);
   const handlePost = async (e: FormEvent) => {
     e.preventDefault();
     const Authorization = `Bearer ${user.token}`;
     setLoading(true);
-
     const formData = new FormData();
     formData.append("title", title);
     formData.append("body", desc);
     if (selectedImage) {
       formData.append("image", selectedImage);
     }
-
+    // نستخدم _method لتحديد أن الطلب من نوع PUT
+    formData.append("_method", "put");
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/posts`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/posts/${item.id}`,
         formData,
         { headers: { Authorization } }
       );
-
-      if (res.status === 201) {
-        setPosts((prev: PostType[]) => [res.data.data, ...prev]);
+      if (res.status === 200) {
+        setPosts((prev: PostType[]) =>
+          prev.map((post) => (post.id === item.id ? res.data.data : post))
+        );
         showCustomToast(
-          "Post Created Successfully",
+          "Post Edited Successfully",
           res.data.data.body,
           res.data.data.image
         );
         setDesc("");
         setTitle("");
         setSelectedImage(null);
-        scrollTo(0, 0);
         setIsOpen(false); // ⬅️ غلق الـ Dialog بعد النجاح
       }
     } catch (e: any) {
@@ -70,16 +76,15 @@ const CreatePost = () => {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <form>
         <DialogTrigger asChild>
-          <Button
-            onClick={() => setIsOpen(true)} // ⬅️ فتح الـ Dialog عند الضغط على الزر
-            className="w-full cursor-pointer text-white bg-gradient-to-r text-[17px] from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium">
-            <CirclePlus /> Post
-          </Button>
+          <div className="flex cursor-pointer items-center px-2 py-[6px] text-sm hover:bg-accent rounded-md gap-2">
+            <Edit size={18} className="text-primary" />
+            <span className="text-muted-foreground">Edit Post</span>
+          </div>
         </DialogTrigger>
 
         <DialogContent className="sm:max-w-[625px] max-h-[80vh] overflow-y-auto">
           <DialogHeader className="text-center border-b border-border pb-4 flex items-center justify-center">
-            <DialogTitle>Create post</DialogTitle>
+            <DialogTitle>Edit post</DialogTitle>
           </DialogHeader>
 
           <UserInfoAfterLoggedIn show={false} />
@@ -92,18 +97,25 @@ const CreatePost = () => {
               className="h-10 resize-none outline-none placeholder:text-xs  placeholder:sm:text-base"
               placeholder={`What's on your mind, ${user?.user?.username}? `}
             />
-            {selectedImage && (
-              <div className="p-1 relative border border-border rounded-md">
+            {(selectedImage || previewImage) && (
+              <div className={`p-1 relative border border-border rounded-md  `}>
                 <div
-                  onClick={() => setSelectedImage(null)}
+                  onClick={() => {
+                    setSelectedImage(null);
+                    setPreviewImage(null);
+                  }}
                   className="absolute top-3 right-3 cursor-pointer bg-red-500 size-10 grid place-items-center rounded-full">
                   <X size={22} className="text-white" />
                 </div>
                 <Image
                   width={300}
                   height={300}
-                  src={URL.createObjectURL(selectedImage)}
-                  alt="profile-img"
+                  src={
+                    selectedImage
+                      ? URL.createObjectURL(selectedImage)
+                      : (previewImage as string)
+                  }
+                  alt="post-image"
                   className="w-full h-[300px] md:h-[450px] object-fill"
                 />
               </div>
@@ -147,7 +159,7 @@ const CreatePost = () => {
               {loading ? (
                 <LoaderCircle size={20} className="text-white animate-spin" />
               ) : (
-                "Post"
+                "Edit Post"
               )}
             </Button>
           </div>
@@ -157,4 +169,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default EditPost;

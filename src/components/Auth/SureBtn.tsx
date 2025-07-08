@@ -9,26 +9,22 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Authcontext } from "@/lib/AuthContext";
-import { LogOut } from "lucide-react";
-import { useContext } from "react";
-const Logout = () => {
-  let { LogoutFunc } = useContext(Authcontext);
-  let handleLogout = () => {
-    LogoutFunc();
-  };
+const SureBtn = ({
+  children,
+  title,
+  handleSure,
+}: {
+  children: React.ReactNode;
+  title: string;
+  handleSure: () => void;
+}) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button className="w-full" variant="outline">
-          <LogOut />
-        </Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you absolutely sure to logout?
+            Are you absolutely sure to {title}?
           </AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your
@@ -37,11 +33,11 @@ const Logout = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+          <AlertDialogAction onClick={handleSure}>Confirm</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 };
 
-export default Logout;
+export default SureBtn;

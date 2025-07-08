@@ -5,8 +5,7 @@ import SidebarPhone from "./SidebarPhone";
 import SignupBtn from "./SignupBtn";
 import { useContext } from "react";
 import { Authcontext } from "@/lib/AuthContext";
-import { Avatar } from "../ui/avatar";
-import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const Header = () => {
   let { user } = useContext(Authcontext);
@@ -31,6 +30,7 @@ const Header = () => {
                 <Image
                   width={40}
                   height={40}
+                  className="w-full"
                   src={"/user.png"}
                   alt="profile-img"
                 />

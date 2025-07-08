@@ -1,9 +1,16 @@
 "use client";
+import { PostType } from "@/types/type";
 import { createContext, use, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export let Authcontext = createContext(
-  {} as { user: UserType; setUser: any; LogoutFunc: any }
+  {} as {
+    user: UserType;
+    setUser: any;
+    LogoutFunc: any;
+    posts: PostType[];
+    setPosts: any;
+  }
 );
 export interface UserType {
   user: {
@@ -21,6 +28,7 @@ export interface UserType {
 
 const AuthContextFunc = ({ children }: { children: React.ReactNode }) => {
   let [user, setUser] = useState({} as UserType);
+  let [posts, setPosts] = useState<PostType[]>([]);
   let LogoutFunc = () => {
     setUser({} as UserType);
     localStorage.removeItem("user");
@@ -36,7 +44,8 @@ const AuthContextFunc = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
   return (
-    <Authcontext.Provider value={{ user, setUser, LogoutFunc }}>
+    <Authcontext.Provider
+      value={{ user, setUser, LogoutFunc, posts, setPosts }}>
       {children}
     </Authcontext.Provider>
   );
