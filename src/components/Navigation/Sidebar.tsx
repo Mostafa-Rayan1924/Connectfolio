@@ -46,16 +46,20 @@ const Sidebar = () => {
                     />
                   </AvatarFallback>
                 </Avatar>
-                <h2 className="font-semibold">{user?.user?.name}</h2>
+                <h2 className="font-semibold line-clamp-1">
+                  {user?.user?.username}
+                </h2>
               </Link>
             )}
             {linksArr.map((item) => {
               return <LinkLi item={item} user={user} />;
             })}
 
-            <div className="mt-6">
-              <CreatePost />
-            </div>
+            {user?.user && (
+              <div className="mt-6">
+                <CreatePost />
+              </div>
+            )}
           </ul>
         </div>
         <div className="pb-3">

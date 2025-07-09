@@ -39,7 +39,7 @@ const SidebarPhone = () => {
           {linksArr.map((item) => (
             <LinkLi item={item} user={user} />
           ))}
-          <CreatePost />
+          {user?.user && <CreatePost />}
         </ul>
         <SheetFooter className="border-t border-border">
           {user?.user ? (
