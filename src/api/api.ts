@@ -6,9 +6,12 @@ export const getPosts = async (page = 1) => {
       cache: "no-store",
     }
   );
-  if (!fetchData.ok) throw new Error("Failed to fetch data");
-  let { data } = await fetchData.json();
-  return data;
+  if (!fetchData.ok) {
+    console.log(fetchData);
+    throw new Error("Failed to fetch data");
+  }
+  let res = await fetchData.json();
+  return res;
 };
 // get user info for profile
 export const getUserInfo = async (id: number) => {
