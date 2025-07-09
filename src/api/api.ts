@@ -1,7 +1,7 @@
 // get posts
 export const getPosts = async (page = 1) => {
   let fetchData = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/posts?limit=4&page=${page}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/posts?limit=8&page=${page}`,
     {
       cache: "no-store",
     }

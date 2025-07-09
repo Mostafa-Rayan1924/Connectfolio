@@ -26,7 +26,7 @@ const PostsList = () => {
     let handleScroll = () => {
       if (
         window.scrollY + window.innerHeight >=
-        document.documentElement.scrollHeight
+        document.documentElement.scrollHeight - 100
       ) {
         page.current++;
         let getData = async () => {
