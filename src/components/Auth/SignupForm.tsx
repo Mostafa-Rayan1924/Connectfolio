@@ -22,58 +22,15 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { showCustomToast } from "../Reusable/Toast";
 import { useRouter } from "next/navigation";
+import useFormSignup from "./useFormSignup";
 export default function SignupForm() {
   const { user, setUser } = useContext(Authcontext);
   const router = useRouter();
   if (user?.user) {
     router.push("/");
   }
-  const [loading, setLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const form = useForm<z.infer<typeof formSchema>>({
-    mode: "onBlur",
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "most",
-      name: "sasa",
-      email: "mrTbU@example.com",
-      password: "23456789",
-      image: undefined,
-    },
-  });
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const formData = new FormData();
-    formData.append("username", values.username);
-    formData.append("name", values.name);
-    formData.append("email", values.email);
-    formData.append("password", values.password);
-    formData.append("image", selectedImage as File);
-    try {
-      setLoading(true);
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/register`,
-        formData
-      );
-      if (res.status === 200) {
-        setLoading(false);
-        setUser({
-          token: res.data.token,
-          user: res.data.user,
-        });
-        localStorage.setItem("user", JSON.stringify(res.data));
-        router.replace("/");
-        showCustomToast(
-          "User Created Successfully",
-          res?.data?.user?.username,
-          res?.data?.user?.profile_image
-        );
-        form.reset();
-      }
-    } catch (e: any) {
-      setLoading(false);
-      toast.error(e?.response?.data?.message);
-    }
-  };
+  let { form, onSubmit, loading, setSelectedImage, selectedImage } =
+    useFormSignup();
 
   return (
     <section className="w-[95%] lg:w-[70%] mx-auto py-5 md:py-10  ">

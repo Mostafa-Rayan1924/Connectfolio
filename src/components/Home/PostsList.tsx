@@ -1,44 +1,11 @@
 "use client";
-import { getPosts } from "@/api/api";
+
+import useFetchPosts from "../Reusable/FetchPosts";
+import PostSkeleton from "../Reusable/PostSkeleton";
 import OnePost from "./OnePost";
 import { PostType } from "@/types/type";
-import { useContext, useEffect, useRef, useState } from "react";
-import { Authcontext } from "@/lib/AuthContext";
-import PostSkeleton from "../Reusable/PostSkeleton";
-import { set } from "zod";
-
 const PostsList = () => {
-  let { posts, setPosts } = useContext(Authcontext);
-  let [loading, setLoading] = useState(false);
-  let [total, setTotal] = useState(0);
-  let page = useRef(1);
-  useEffect(() => {
-    let getData = async () => {
-      setLoading(true);
-      let posts = await getPosts(page.current);
-      setTotal(posts.meta.total);
-      setPosts(posts.data);
-      setLoading(false);
-    };
-    getData();
-  }, []);
-  useEffect(() => {
-    let handleScroll = () => {
-      if (
-        window.scrollY + window.innerHeight >=
-        document.documentElement.scrollHeight - 100
-      ) {
-        page.current++;
-        let getData = async () => {
-          let posts = await getPosts(page.current);
-          setPosts((prev: PostType[]) => [...prev, ...posts.data]);
-        };
-        getData();
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const { posts, loading } = useFetchPosts();
   return (
     <div className="w-full space-y-4 pb-5">
       {loading

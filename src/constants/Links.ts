@@ -18,7 +18,7 @@ export let linksArr: linksType[] = [
   },
   {
     id: 3,
-    link: "/explore",
+    link: "/explore?page=1",
     title: "Explore",
     icon: Compass,
   },

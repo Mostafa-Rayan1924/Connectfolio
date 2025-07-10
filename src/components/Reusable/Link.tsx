@@ -16,7 +16,7 @@ const LinkLi = ({
       href={item.link}
       className={`text-[13px] ${
         pathname === item.link && "bg-accent "
-      } flex items-center mb-3 ${
+      } flex items-center  ${
         user?.user && item.title === "Signup" ? "hidden" : "flex"
       }  relative before:content-[''] before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-accent before:transition-all before:duration-300 hover:before:w-full before:rounded-lg before:-z-1  gap-2 py-2 px-3 rounded-lg`}>
       <item.icon size={22} />

@@ -11,6 +11,7 @@ import { LogIn } from "lucide-react";
 import LinkLi from "../Reusable/Link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Image from "next/image";
+import UserProfileNav from "../Reusable/UserProfileNav";
 
 const Sidebar = () => {
   let pathName = usePathname();
@@ -25,35 +26,15 @@ const Sidebar = () => {
           </div>
           <ul>
             {user?.user && (
-              <Link
-                className="flex items-center gap-2 mb-4 hover:text-primary "
-                href={`/profile/${user.user.id}`}>
-                <Avatar size="sm">
-                  <AvatarImage
-                    src={
-                      Object.keys(user?.user?.profile_image).length > 0
-                        ? user?.user?.profile_image
-                        : "/user.png"
-                    }
-                  />
-                  <AvatarFallback>
-                    <Image
-                      width={40}
-                      height={40}
-                      className="w-full"
-                      src={"/user.png"}
-                      alt="profile-img"
-                    />
-                  </AvatarFallback>
-                </Avatar>
-                <h2 className="font-semibold line-clamp-1">
-                  {user?.user?.username}
-                </h2>
-              </Link>
+              <div className="mb-4">
+                <UserProfileNav user={user} />
+              </div>
             )}
-            {linksArr.map((item) => {
-              return <LinkLi item={item} user={user} />;
-            })}
+            <div className="space-y-3">
+              {linksArr.map((item) => {
+                return <LinkLi item={item} user={user} />;
+              })}
+            </div>
 
             {user?.user && (
               <div className="mt-6">

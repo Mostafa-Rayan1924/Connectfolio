@@ -1,7 +1,5 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { LoaderCircle, User2Icon } from "lucide-react";
 import {
@@ -13,58 +11,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { loginSchema } from "./Validations";
 import Link from "next/link";
-import { use, useContext, useState } from "react";
-import axios from "axios";
-import { showCustomToast } from "../Reusable/Toast";
-import toast from "react-hot-toast";
+import { useContext } from "react";
 import { Authcontext } from "@/lib/AuthContext";
 import { useRouter } from "next/navigation";
+import useFormLogin from "./useFormLogin";
 export default function LoginForm() {
-  const [loading, setLoading] = useState(false);
   const { user, setUser } = useContext(Authcontext);
   const router = useRouter();
-
-  const form = useForm<z.infer<typeof loginSchema>>({
-    mode: "onBlur",
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  });
-  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    const params = {
-      username: values.username,
-      password: values.password,
-    };
-    try {
-      setLoading(true);
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
-        params
-      );
-      if (res.status === 200) {
-        setLoading(false);
-        setUser({
-          token: res.data.token,
-          user: res.data.user,
-        });
-        localStorage.setItem("user", JSON.stringify(res.data));
-        router.replace("/");
-        showCustomToast(
-          "User Logged In Successfully",
-          res?.data?.user?.username,
-          res?.data?.user?.profile_image
-        );
-        form.reset();
-      }
-    } catch (e: any) {
-      setLoading(false);
-      toast.error(e?.response?.data?.message);
-    }
-  };
+  const { form, onSubmit, loading } = useFormLogin();
   if (user?.user) {
     router.push("/");
   }

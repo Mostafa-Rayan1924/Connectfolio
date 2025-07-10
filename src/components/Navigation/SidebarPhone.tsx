@@ -36,10 +36,16 @@ const SidebarPhone = () => {
           </SheetTitle>
         </SheetHeader>
         <ul className=" px-2">
-          {linksArr.map((item) => (
-            <LinkLi item={item} user={user} />
-          ))}
-          {user?.user && <CreatePost />}
+          <div className="space-y-3">
+            {linksArr.map((item) => (
+              <LinkLi item={item} user={user} />
+            ))}
+          </div>
+          {user?.user && (
+            <div className="mt-3">
+              <CreatePost />
+            </div>
+          )}
         </ul>
         <SheetFooter className="border-t border-border">
           {user?.user ? (

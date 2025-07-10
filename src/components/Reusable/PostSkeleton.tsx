@@ -22,7 +22,7 @@ const PostSkeleton = () => {
           <div className="w-10 h-1 bg-accent animate-pulse" />
           <p className="w-16 h-1 bg-accent animate-pulse"></p>
         </div>
-        <div className="size-8 bg-accent animate-pulse" />
+        <div className="size-8 bg-accent animate-pulse rounded-full" />
       </div>
       {/* end footer */}
     </div>
