@@ -35,4 +35,5 @@ export type PostType = {
   tags: any[];
   created_at: string;
   comments_count: number;
+  comments: string[];
 };

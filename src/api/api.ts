@@ -50,3 +50,13 @@ export const getUsers = async (page: number) => {
   let res = await fetchData.json();
   return res;
 };
+export const getOnePost = async (id: number) => {
+  let fetchData = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/posts/${id}`
+  );
+  if (!fetchData.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  let { data } = await fetchData.json();
+  return data;
+};
