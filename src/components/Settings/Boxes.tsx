@@ -22,12 +22,10 @@ const Boxes = () => {
           </h2>
           <UpdateProfile
             user={user}
-            href={"/update-profile"}
             title={"Profile Picture"}
             desc={"mangage your profile picture"}
           />
           <UpdateProfile
-            href={"/update-profile"}
             title={"Personal Information"}
             desc={"Update your personal information"}
             icon={User}
