@@ -148,7 +148,7 @@ const CreatePost = () => {
             <Button
               disabled={desc.length < 1 || loading}
               onClick={handlePost}
-              className="w-full"
+              className="w-full text-white"
               type="submit">
               {loading ? (
                 <LoaderCircle size={20} className="text-white animate-spin" />

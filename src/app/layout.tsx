@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Navigation/Header";
 import AuthContextFunc from "@/lib/AuthContext";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@/components/Navigation/ThemeProvider";
 export const metadata: Metadata = {
   title: "Connectfolio",
   description: "social media website",
@@ -20,11 +21,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${font.className}    overflow-x-hidden`}>
-        <AuthContextFunc>
-          <Header />
-          <div className=" lg:pt-6 ">{children}</div>
-          <Toaster position="bottom-right" reverseOrder={false} />
-        </AuthContextFunc>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange>
+          <AuthContextFunc>
+            <Header />
+            <div className=" lg:pt-6 ">{children}</div>
+            <Toaster position="bottom-right" reverseOrder={false} />
+          </AuthContextFunc>
+        </ThemeProvider>
       </body>
     </html>
   );

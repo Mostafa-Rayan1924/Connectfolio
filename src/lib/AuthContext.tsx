@@ -1,5 +1,6 @@
 "use client";
 import { PostType } from "@/types/type";
+import { useRouter } from "next/navigation";
 import { createContext, use, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -29,10 +30,12 @@ export interface UserType {
 const AuthContextFunc = ({ children }: { children: React.ReactNode }) => {
   let [user, setUser] = useState({} as UserType);
   let [posts, setPosts] = useState<PostType[]>([]);
+  let router = useRouter();
   let LogoutFunc = () => {
     setUser({} as UserType);
     localStorage.removeItem("user");
     toast.success("Logout Successfully");
+    router.push("/");
   };
   useEffect(() => {
     let user = localStorage.getItem("user");
