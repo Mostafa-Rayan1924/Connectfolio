@@ -7,6 +7,7 @@ import UserInfoInPost from "@/components/Reusable/UserInfoInPost";
 import { PostType } from "@/types/type";
 import { MessageCircleMoreIcon } from "lucide-react";
 import Image from "next/image";
+import ImgPost from "./ImgPost";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -18,17 +19,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         {/* post content */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* post image */}
-          <div className="size-full">
-            <Image
-              width={500}
-              height={500}
-              src={
-                Object.keys(data?.image).length > 0 ? data?.image : "/post.png"
-              }
-              alt="post-img"
-              className="w-full h-[300px]  shadow rounded-lg object-fill"
-            />
-          </div>
+          <ImgPost data={data} />
           {/* post info */}
           <div className="space-y-2">
             <div className="flex items-center justify-between ">
