@@ -6,12 +6,12 @@ import SendComment from "@/components/Reusable/SendComment";
 import UserInfoInPost from "@/components/Reusable/UserInfoInPost";
 import { PostType } from "@/types/type";
 import { MessageCircleMoreIcon } from "lucide-react";
-import Image from "next/image";
 import ImgPost from "./ImgPost";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   let data: PostType = await getOnePost(+id);
+  console.log(data.image);
   return (
     <div className="pb-10">
       <HeaderPages />

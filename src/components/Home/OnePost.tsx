@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useContext } from "react";
 import PostActions from "../Reusable/PostActions";
 import UserInfoInPost from "../Reusable/UserInfoInPost";
+import ImagePost from "./ImagePost";
 const OnePost = ({ item }: { item: PostType }) => {
   let { user } = useContext(Authcontext);
 
@@ -20,18 +21,7 @@ const OnePost = ({ item }: { item: PostType }) => {
       </div>
       {/* end header */}
       {/* body */}
-      {Object.keys(item?.image).length > 0 && (
-        <Link
-          href={`/post/${item?.id}`}
-          className="w-full h-[300px] md:h-[350px] lg:h-[450px]">
-          <img
-            onError={(e) => (e.currentTarget.src = "/post.png")}
-            className="size-full aspect-video rounded-lg object-fill"
-            src={item?.image}
-            alt="post-img"
-          />
-        </Link>
-      )}
+      <ImagePost item={item} />
       {/* end body */}
       {/* footer */}
       <Link
