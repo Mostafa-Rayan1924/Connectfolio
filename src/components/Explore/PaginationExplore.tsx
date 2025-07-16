@@ -1,4 +1,6 @@
-import Link from "next/link";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 
 const PaginationExplore = ({
@@ -8,15 +10,30 @@ const PaginationExplore = ({
   pageNum: number;
   lastPage: number;
 }) => {
+  const router = useRouter();
+
+  const handlePrev = () => {
+    if (pageNum > 1) {
+      router.push(`/explore?page=${+pageNum - 1}`);
+    }
+  };
+
+  const handleNext = () => {
+    if (pageNum < lastPage) {
+      router.push(`/explore?page=${+pageNum + 1}`);
+    }
+  };
+
   return (
     <div className="flex items-center justify-between">
-      <Button disabled={+pageNum === 1} variant={"outline"}>
-        <Link className="size-full" href={`explore?page=${+pageNum - 1}`}>
-          Prev
-        </Link>
+      <Button onClick={handlePrev} disabled={+pageNum === 1} variant="outline">
+        Prev
       </Button>
-      <Button disabled={+pageNum === +lastPage} variant={"outline"}>
-        <Link href={`explore?page=${+pageNum + 1}`}>Next</Link>
+      <Button
+        onClick={handleNext}
+        disabled={+pageNum === lastPage}
+        variant="outline">
+        Next
       </Button>
     </div>
   );
