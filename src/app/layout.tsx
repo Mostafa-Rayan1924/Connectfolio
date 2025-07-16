@@ -8,6 +8,9 @@ import { ThemeProvider } from "@/components/Navigation/ThemeProvider";
 export const metadata: Metadata = {
   title: "Connectfolio",
   description: "social media website",
+  icons: {
+    icon: "/social-media.png",
+  },
 };
 const font = Noto_Sans({
   subsets: ["latin"],

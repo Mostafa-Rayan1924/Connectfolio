@@ -1,17 +1,39 @@
 import { getOnePost } from "@/api/api";
 import HeaderPages from "@/components/Navigation/HeaderPages";
-import CommentBox from "@/components/Reusable/CommentBox";
+import type { Metadata, ResolvingMetadata } from "next";
 import CommentsTable from "@/components/Reusable/CommentsTable";
 import SendComment from "@/components/Reusable/SendComment";
 import UserInfoInPost from "@/components/Reusable/UserInfoInPost";
 import { PostType } from "@/types/type";
 import { MessageCircleMoreIcon } from "lucide-react";
 import ImgPost from "./ImgPost";
+type Props = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const { id } = await params;
 
-const page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  // fetch data
+  const post: PostType = await getOnePost(+id);
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: post?.title !== "" ? post?.title : post?.body,
+    openGraph: {
+      images: ["/post.png", ...previousImages],
+    },
+  };
+}
+const page = async ({ params }: Props) => {
   const { id } = await params;
   let data: PostType = await getOnePost(+id);
-  console.log(data.image);
   return (
     <div className="pb-10">
       <HeaderPages />
